@@ -13,16 +13,13 @@ public class PlayerMovement : MonoBehaviour
     float moveX;
     float moveY;
 
+    float dashSpeed = 6.0f;
+    float maxDashtime = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OnMove(InputValue input)
@@ -40,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDash()
     {
-
+        StartCoroutine(Dashing());
     }
 
     private void FixedUpdate()
@@ -59,5 +56,19 @@ public class PlayerMovement : MonoBehaviour
 
         moveDir.y -= gravity * Time.fixedDeltaTime;
         cc.Move(moveDir * Time.fixedDeltaTime);
+    }
+
+    IEnumerator Dashing()
+    {
+        //took inspiration from the answer to this question: https://forum.unity.com/threads/adding-a-dash-in-character-controller.878986/
+        //gets the time at the frame when dashing starts
+        float startDashTime = Time.time;
+
+        //only allows the dash to happen for the time specified by maxDashTime
+        while(Time.time < startDashTime + maxDashtime)
+        {
+            cc.Move(moveDir * dashSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 }

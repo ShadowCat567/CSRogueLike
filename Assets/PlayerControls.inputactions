@@ -92,7 +92,7 @@
                 {
                     "name": "",
                     "id": "a80e2e7b-fe1d-42ad-b546-0ac27986a279",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -103,7 +103,7 @@
                 {
                     "name": "",
                     "id": "6ebea379-bc9d-4940-942e-e0d7ba72183c",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
