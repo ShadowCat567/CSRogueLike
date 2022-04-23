@@ -16,10 +16,31 @@ public class PlayerMovement : MonoBehaviour
     float dashSpeed = 6.0f;
     float maxDashtime = 0.2f;
 
+    float weaponRayCastDist = 2.5f;
+    bool attack = false;
+    float activated = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+    }
+
+    void CheckEnemyHit()
+    {
+        //used this to help figure this out: https://answers.unity.com/questions/294285/casting-ray-forward-from-transform-position.html
+        RaycastHit hitObj;
+
+        Debug.DrawRay(transform.position, transform.forward * weaponRayCastDist, Color.red);
+        
+        if(Physics.Raycast(transform.position, transform.forward, out hitObj, weaponRayCastDist))
+        {
+            if(hitObj.collider.gameObject.tag == "Enemy")
+            {
+                hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 1;
+                Debug.Log(hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth);
+            }
+        }
     }
 
     public void OnMove(InputValue input)
@@ -32,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnNormalAttack()
     {
-
+        attack = true;
     }
 
     public void OnDash()
@@ -42,6 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(attack)
+        {
+            CheckEnemyHit();
+            StartCoroutine(TurnOffWeapon(activated));
+        }
+
         if(cc.isGrounded)
         {
             moveDir = new Vector3(moveX, 0, moveY);
@@ -70,5 +97,11 @@ public class PlayerMovement : MonoBehaviour
             cc.Move(moveDir * dashSpeed * Time.deltaTime);
             yield return null;
         }
+    }
+
+    IEnumerator TurnOffWeapon(float weaponActive)
+    {
+        yield return new WaitForSeconds(weaponActive);
+        attack = false;
     }
 }
