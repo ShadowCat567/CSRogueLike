@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class EnemyBeh : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    GameObject player;
     float moveVelo = 4.0f;
     Rigidbody rb;
     float rotSpeed = 3.0f;
 
     int enemyHealth = 3;
     public int curEneHealth;
+    [SerializeField] GameObject Enemy;
+
+    bool isChasing = true;
 
     // Start is called before the first frame update
     void Start()
@@ -18,17 +21,27 @@ public class EnemyBeh : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
+       // isChasing = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), rotSpeed * Time.deltaTime);
-        transform.position += transform.forward * Time.deltaTime * moveVelo;
-    }
+        if (isChasing)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), rotSpeed * Time.deltaTime);
+            transform.position += transform.forward * Time.deltaTime * moveVelo;
+        }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //collides with player's weapon, loses health
+        else
+        {
+            //pace back and forth, detect how close player is to start chasing
+        }
+
+        if(curEneHealth <= 0)
+        {
+            Enemy.SetActive(false);
+            curEneHealth = enemyHealth;
+        }
     }
 }

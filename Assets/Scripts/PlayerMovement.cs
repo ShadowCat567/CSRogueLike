@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     CharacterController cc;
     float moveSpeed = 5.0f;
     float gravity = 9.8f;
+    PlayerInput pi;
 
     Vector3 moveDir = Vector3.zero;
     float moveX;
@@ -20,10 +21,24 @@ public class PlayerMovement : MonoBehaviour
     bool attack = false;
     float activated = 0.2f;
 
+    int curHealth;
+    int maxHealth = 3;
+    [SerializeField] GameObject respawn;
+
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        pi = GetComponent<PlayerInput>();
+        curHealth = maxHealth;
+    }
+
+    private void Update()
+    {
+        if(curHealth <= 0)
+        {
+            StartCoroutine(ResapwnPlayer());
+        }
     }
 
     void CheckEnemyHit()
@@ -103,5 +118,24 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(weaponActive);
         attack = false;
+    }
+
+    IEnumerator ResapwnPlayer()
+    {
+        pi.enabled = false;
+        //displays some kind of "you died" scene
+        yield return new WaitForSeconds(1.0f);
+        //respawn and reset
+        transform.position = respawn.transform.position;
+        curHealth = maxHealth;
+        pi.enabled = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            curHealth -= 1;
+        }
     }
 }
