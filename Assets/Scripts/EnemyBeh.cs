@@ -14,6 +14,9 @@ public class EnemyBeh : MonoBehaviour
     [SerializeField] GameObject Enemy;
 
     bool isChasing = true;
+    float distToPlayer = 4.0f;
+    [SerializeField] GameObject pacingObj1;
+    [SerializeField] GameObject pacingObj2;
 
     // Start is called before the first frame update
     void Start()
@@ -21,12 +24,17 @@ public class EnemyBeh : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
-       // isChasing = false;
+        isChasing = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Vector3.Distance(transform.position, player.transform.position) <= distToPlayer)
+        {
+            isChasing = true;
+        }
+
         if (isChasing)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.transform.position - transform.position), rotSpeed * Time.deltaTime);
@@ -36,6 +44,7 @@ public class EnemyBeh : MonoBehaviour
         else
         {
             //pace back and forth, detect how close player is to start chasing
+            //Vector3.Lerp(pacingObj1.transform.position, pacingObj2.transform.position, )
         }
 
         if(curEneHealth <= 0)
