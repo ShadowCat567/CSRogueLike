@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7028788942466439366}
+  - component: {fileID: 5251517429262784617}
   m_Layer: 0
   m_Name: IntroToProg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7028788942466439366
 Transform:
   m_ObjectHideFlags: 0
@@ -40,6 +41,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5251517429262784617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028788942466439365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54bef74785910a84591045998ea7d031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  room: {fileID: 7028788942466439365}
+  playerPos: {fileID: 0}
 --- !u!1 &7028788942610328941
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +166,7 @@ GameObject:
   - component: {fileID: 7028788942655305770}
   m_Layer: 0
   m_Name: Exit
-  m_TagString: Untagged
+  m_TagString: Exit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
