@@ -15,8 +15,14 @@ public class EnemyBeh : MonoBehaviour
 
     bool isChasing = true;
     float distToPlayer = 4.0f;
-    [SerializeField] GameObject pacingObj1;
-    [SerializeField] GameObject pacingObj2;
+    [SerializeField] float amp = 4.0f;
+    float elapsedTime = 0.0f;
+    Vector3 startingPos;
+    float multi = 1.0f;
+
+    enum direction { left, right, forwards, backwards }
+    direction dirToMove;
+    float velocity = 2.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,8 @@ public class EnemyBeh : MonoBehaviour
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
         isChasing = false;
+        startingPos = transform.position;
+        ChooseDirection();
     }
 
     // Update is called once per frame
@@ -43,14 +51,54 @@ public class EnemyBeh : MonoBehaviour
 
         else
         {
-            //pace back and forth, detect how close player is to start chasing
-            //Vector3.Lerp(pacingObj1.transform.position, pacingObj2.transform.position, )
+            MoveInDirection();
+            /*
+            elapsedTime += Time.deltaTime;
+            Vector3 offset = new Vector3(amp * Mathf.Sin(elapsedTime) * multi, 0.0f, 0.0f);
+            transform.position = startingPos + offset;
+            */
         }
 
         if(curEneHealth <= 0)
         {
             Enemy.SetActive(false);
             curEneHealth = enemyHealth;
+        }
+    }
+
+
+    void ChooseDirection()
+    {
+        dirToMove = (direction)Random.Range(0, 4);
+    }
+
+    void MoveInDirection()
+    {
+        switch(dirToMove)
+        {
+            case direction.left:
+                transform.Translate(Vector3.left * Time.deltaTime * velocity);
+                break;
+
+            case direction.right:
+                transform.Translate(Vector3.right * Time.deltaTime * velocity);
+                break;
+
+            case direction.forwards:
+                transform.Translate(Vector3.forward * Time.deltaTime * velocity);
+                break;
+
+            case direction.backwards:
+                transform.Translate(Vector3.back * Time.deltaTime * velocity);
+                break;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")
+        {
+            velocity = -velocity;
         }
     }
 }

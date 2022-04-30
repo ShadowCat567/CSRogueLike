@@ -146,6 +146,30 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3820122287611617866, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122287712956438, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122287849722321, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122287900901407, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122288342236569, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122288514812103, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 3820122288751307072, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
       propertyPath: m_Name
       value: Start
@@ -193,6 +217,14 @@ PrefabInstance:
     - target: {fileID: 3820122288751307075, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122289104015241, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3820122289210001612, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e1cd2d6cebf6cd44be3dbe72d03e3bf, type: 3}
@@ -314,8 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curEneHealth: 0
   Enemy: {fileID: 871823155}
-  pacingObj1: {fileID: 0}
-  pacingObj2: {fileID: 0}
+  amp: 4
 --- !u!54 &871823161
 Rigidbody:
   m_ObjectHideFlags: 0
