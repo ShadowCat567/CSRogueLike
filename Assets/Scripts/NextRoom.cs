@@ -5,11 +5,14 @@ using UnityEngine;
 public class NextRoom : MonoBehaviour
 {
     [SerializeField] GameObject manager;
+    [SerializeField] GameObject currentRoom;
+    [SerializeField] GameObject player;
+    [SerializeField] bool isStart;
 
     // Start is called before the first frame update
     void Start()
     {
-        manager = GameObject.Find("RoomManager");
+
     }
 
     // Update is called once per frame
@@ -23,18 +26,7 @@ public class NextRoom : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             manager.GetComponent<RoomManager>().SelectRoom();
+            currentRoom.SetActive(false);
         }
     }
-
-    /*
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        Debug.Log("collided");
-        if (collision.gameObject.tag == "Player")
-        {
-            manager.GetComponent<RoomManager>().SelectRoom();
-        }
-    }
-    */
 }

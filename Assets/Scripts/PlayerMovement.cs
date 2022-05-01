@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     CharacterController cc;
     float moveSpeed = 5.0f;
     float gravity = 9.8f;
-    PlayerInput pi;
 
     Vector3 moveDir = Vector3.zero;
     float moveX;
@@ -22,15 +22,19 @@ public class PlayerMovement : MonoBehaviour
     float activated = 0.2f;
 
     int curHealth;
-    int maxHealth = 3;
-    [SerializeField] GameObject respawn;
+    int maxHealth = 10;
     [SerializeField] GameObject healthBar;
+
+    float hitTimer = 0.2f;
+    Renderer rend;
+    Color damageColor = new Color(0.83f, 0.02f, 0.02f);
+    Color normalColor = new Color(0.96f, 0.96f, 0.96f);
 
     // Start is called before the first frame update
     void Start()
     {
+        rend = GetComponent<Renderer>();
         cc = GetComponent<CharacterController>();
-        pi = GetComponent<PlayerInput>();
         curHealth = maxHealth;
         healthBar.GetComponent<PlayerHealthBar>().SetMaxHealth(maxHealth);
     }
@@ -41,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(curHealth <= 0)
         {
-            StartCoroutine(ResapwnPlayer());
+            SceneManager.LoadScene(0);   
         }
     }
 
@@ -84,6 +88,12 @@ public class PlayerMovement : MonoBehaviour
     public void OnDash()
     {
         StartCoroutine(Dashing());
+    }
+
+    public void TakeDamage(int damage)
+    {
+        StartCoroutine(HitFlash(hitTimer));
+        curHealth -= damage;
     }
 
     private void FixedUpdate()
@@ -130,21 +140,18 @@ public class PlayerMovement : MonoBehaviour
         attack = false;
     }
 
-    IEnumerator ResapwnPlayer()
+    IEnumerator HitFlash(float hitTime)
     {
-        pi.enabled = false;
-        //displays some kind of "you died" scene
-        yield return new WaitForSeconds(1.0f);
-        //respawn and reset
-        transform.position = respawn.transform.position;
-        curHealth = maxHealth;
-        pi.enabled = true;
+        rend.material.color = damageColor;
+        yield return new WaitForSeconds(hitTime);
+        rend.material.color = normalColor;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace")
         {
+            StartCoroutine(HitFlash(hitTimer));
             curHealth -= 1;
         }
     }

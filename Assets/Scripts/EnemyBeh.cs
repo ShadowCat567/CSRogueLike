@@ -16,6 +16,11 @@ public class EnemyBeh : MonoBehaviour
     bool isChasing = true;
     float distToPlayer = 4.0f;
 
+    float hitTimer = 0.2f;
+    Renderer eneRend;
+    Color hitColor = new Color(0.71f, 0.02f, 0.22f);
+    Color baseColor = new Color(0.96f, 0.96f, 0.96f);
+
     enum direction { left, right, forwards, backwards }
     direction dirToMove;
     float velocity = 2.0f;
@@ -23,6 +28,7 @@ public class EnemyBeh : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        eneRend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
@@ -90,5 +96,17 @@ public class EnemyBeh : MonoBehaviour
         {
             velocity = -velocity;
         }
+
+        if(collision.gameObject.tag == "Player")
+        {
+            StartCoroutine(HitPlayer(hitTimer));
+        }
+    }
+
+    IEnumerator HitPlayer(float hitTimer)
+    {
+        eneRend.material.color = hitColor;
+        yield return new WaitForSeconds(hitTimer);
+        eneRend.material.color = baseColor;
     }
 }

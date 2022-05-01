@@ -7,20 +7,9 @@ public class RoomManager : MonoBehaviour
     [SerializeField] GameObject[] roomArr;
     [SerializeField] GameObject curRoom;
     [SerializeField] GameObject finalRoom;
+    [SerializeField] GameObject player;
 
     List<GameObject> usedRooms = new List<GameObject>();
-
-    private void Awake()
-    {
-        foreach(GameObject room in roomArr)
-        {
-            Instantiate(room);
-            room.SetActive(false);
-        }
-
-        Instantiate(finalRoom);
-        finalRoom.SetActive(false);
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +20,7 @@ public class RoomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SelectRoom()
@@ -41,11 +30,5 @@ public class RoomManager : MonoBehaviour
         roomArr[nextRoom].SetActive(true);
         usedRooms.Add(curRoom);
         curRoom = roomArr[nextRoom];
-        StartCoroutine(RoomWait());
-    }
-
-    IEnumerator RoomWait()
-    {
-        yield return new WaitForSeconds(0.3f);
     }
 }

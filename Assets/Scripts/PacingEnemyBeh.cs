@@ -22,10 +22,16 @@ public class PacingEnemyBeh : MonoBehaviour
 
     [SerializeField] bool movingInXDir;
 
+    float hitTimer = 0.2f;
+    Renderer eneRend;
+    Color hitColor = new Color(0.71f, 0.02f, 0.22f);
+    Color baseColor = new Color(0.96f, 0.96f, 0.96f);
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        eneRend = GetComponent<Renderer>();
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
         isChasing = false;
@@ -72,9 +78,16 @@ public class PacingEnemyBeh : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Player")
         {
-           // velocity = -velocity;
+            StartCoroutine(HitPlayer(hitTimer));
         }
+    }
+
+    IEnumerator HitPlayer(float hitTimer)
+    {
+        eneRend.material.color = hitColor;
+        yield return new WaitForSeconds(hitTimer);
+        eneRend.material.color = baseColor;
     }
 }

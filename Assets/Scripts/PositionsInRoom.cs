@@ -26,7 +26,9 @@ public class PositionsInRoom : MonoBehaviour
 
     void ChangePosition()
     {
+        player.GetComponent<CharacterController>().enabled = false;
         player.transform.position = playerPos.transform.position;
+        player.GetComponent<CharacterController>().enabled = true;
         wasActivated = true;
     }
 }
