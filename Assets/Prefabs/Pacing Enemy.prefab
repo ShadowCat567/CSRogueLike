@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6211321127395136671}
   m_Layer: 0
   m_Name: Pacing Enemy
-  m_TagString: Enemy
+  m_TagString: EnemyPace
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,3 +130,4 @@ MonoBehaviour:
   curEneHealth: 0
   Enemy: {fileID: 6211321127395136676}
   amp: 4
+  movingInXDir: 0

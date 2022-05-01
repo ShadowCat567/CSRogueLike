@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     int curHealth;
     int maxHealth = 3;
     [SerializeField] GameObject respawn;
+    [SerializeField] GameObject healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +32,13 @@ public class PlayerMovement : MonoBehaviour
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInput>();
         curHealth = maxHealth;
+        healthBar.GetComponent<PlayerHealthBar>().SetMaxHealth(maxHealth);
     }
 
     private void Update()
     {
+        healthBar.GetComponent<PlayerHealthBar>().UpdateHealthBar(curHealth);
+
         if(curHealth <= 0)
         {
             StartCoroutine(ResapwnPlayer());
@@ -54,6 +58,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 1;
                 Debug.Log(hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth);
+            }
+
+            if(hitObj.collider.gameObject.tag == "EnemyPace")
+            {
+                hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 1;
+                Debug.Log(hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth);
             }
         }
     }
@@ -133,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy")
+        if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace")
         {
             curHealth -= 1;
         }
