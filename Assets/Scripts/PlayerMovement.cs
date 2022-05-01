@@ -60,14 +60,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if(hitObj.collider.gameObject.tag == "Enemy")
             {
-                hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 1;
-                Debug.Log(hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth);
+                hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 0.051f;
+               // Debug.Log(hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth);
             }
 
             if(hitObj.collider.gameObject.tag == "EnemyPace")
             {
-                hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 1;
-                Debug.Log(hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth);
+                hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 0.051f;
+               // Debug.Log(hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth);
             }
         }
     }

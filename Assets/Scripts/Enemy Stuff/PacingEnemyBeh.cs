@@ -9,8 +9,8 @@ public class PacingEnemyBeh : MonoBehaviour
     Rigidbody rb;
     float rotSpeed = 3.0f;
 
-    int enemyHealth = 3;
-    public int curEneHealth;
+    float enemyHealth = 0.15f;
+    public float curEneHealth;
     [SerializeField] GameObject Enemy;
 
     bool isChasing = true;
@@ -22,10 +22,11 @@ public class PacingEnemyBeh : MonoBehaviour
 
     [SerializeField] bool movingInXDir;
 
-    float hitTimer = 0.2f;
+    public float hitTimer = 0.2f;
     Renderer eneRend;
     Color hitColor = new Color(0.71f, 0.02f, 0.22f);
     Color baseColor = new Color(0.96f, 0.96f, 0.96f);
+    [SerializeField] GameObject healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,8 @@ public class PacingEnemyBeh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        healthBar.GetComponent<EnemyHealthBar>().UpdateEnemyHealth(curEneHealth);
+
         if (Vector3.Distance(transform.position, player.transform.position) <= distToPlayer)
         {
             isChasing = true;
@@ -76,15 +79,7 @@ public class PacingEnemyBeh : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            StartCoroutine(HitPlayer(hitTimer));
-        }
-    }
-
-    IEnumerator HitPlayer(float hitTimer)
+    public IEnumerator HitPlayer(float hitTimer)
     {
         eneRend.material.color = hitColor;
         yield return new WaitForSeconds(hitTimer);

@@ -9,21 +9,22 @@ public class EnemyBeh : MonoBehaviour
     Rigidbody rb;
     float rotSpeed = 3.0f;
 
-    int enemyHealth = 3;
-    public int curEneHealth;
+    float enemyHealth = 0.15f;
+    public float curEneHealth;
     [SerializeField] GameObject Enemy;
 
     bool isChasing = true;
     float distToPlayer = 4.0f;
 
-    float hitTimer = 0.2f;
+   // float hitTimer = 0.2f;
     Renderer eneRend;
     Color hitColor = new Color(0.71f, 0.02f, 0.22f);
     Color baseColor = new Color(0.96f, 0.96f, 0.96f);
+    [SerializeField] GameObject healthBar;
 
     enum direction { left, right, forwards, backwards }
     direction dirToMove;
-    float velocity = 2.0f;
+    float velocity = 2.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +40,9 @@ public class EnemyBeh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(transform.position, player.transform.position) <= distToPlayer)
+        healthBar.GetComponent<EnemyHealthBar>().UpdateEnemyHealth(curEneHealth);
+
+        if (Vector3.Distance(transform.position, player.transform.position) <= distToPlayer)
         {
             isChasing = true;
         }
@@ -95,11 +98,6 @@ public class EnemyBeh : MonoBehaviour
         if(collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace")
         {
             velocity = -velocity;
-        }
-
-        if(collision.gameObject.tag == "Player")
-        {
-            StartCoroutine(HitPlayer(hitTimer));
         }
     }
 
