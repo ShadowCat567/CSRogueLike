@@ -6,7 +6,6 @@ public class HealthBuffs : MonoBehaviour
 {
     public int buffValue = 5;
     [SerializeField] GameObject buffObject;
-    [SerializeField] GameObject curRoom;
     public bool collectedBuff = false;
 
     // Start is called before the first frame update
@@ -15,15 +14,9 @@ public class HealthBuffs : MonoBehaviour
         buffObject.SetActive(false);   
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             collectedBuff = true;
             buffObject.SetActive(false);

@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - EnemyPace
   - HealthBuff
+  - HealthPotion
   layers:
   - Default
   - TransparentFX

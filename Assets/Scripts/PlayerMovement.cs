@@ -160,5 +160,13 @@ public class PlayerMovement : MonoBehaviour
             curHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
             maxHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
         }
+
+        if(collision.gameObject.tag == "HealthPotion")
+        {
+            if (curHealth < maxHealth)
+            {
+                curHealth += collision.gameObject.GetComponent<HealthPotion>().healthValue;
+            }
+        }
     }
 }
