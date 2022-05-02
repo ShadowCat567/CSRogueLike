@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     bool InvincTimerRunning = false;
     float invincTimer = 0.3f;
 
-    float weaponRayCastDist = 3.0f;
+    float weaponRayCastDist = 2.5f;
     bool attack = false;
     float activated = 0.2f;
 
@@ -34,9 +34,14 @@ public class PlayerMovement : MonoBehaviour
     Color normalColor = new Color(0.96f, 0.96f, 0.96f);
     Color invincibleColor = new Color(0.59f, 0.94f, 1.0f);
 
+    public bool followPlayer;
+
+    [SerializeField] GameObject exitPanel;
+
     // Start is called before the first frame update
     void Start()
     {
+        exitPanel.SetActive(false);
         rend = GetComponent<Renderer>();
         cc = GetComponent<CharacterController>();
         curHealth = maxHealth;
@@ -49,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(curHealth <= 0)
         {
-            SceneManager.LoadScene(0);   
+            SceneManager.LoadScene(1);   
         }
 
         if(InvincTimerRunning)
@@ -70,13 +75,11 @@ public class PlayerMovement : MonoBehaviour
             if(hitObj.collider.gameObject.tag == "Enemy")
             {
                 hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 0.051f;
-               // Debug.Log(hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth);
             }
 
             if(hitObj.collider.gameObject.tag == "EnemyPace")
             {
                 hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 0.051f;
-               // Debug.Log(hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth);
             }
         }
     }
@@ -98,6 +101,12 @@ public class PlayerMovement : MonoBehaviour
     {
         InvincTimerRunning = true;
         StartCoroutine(Dashing());
+    }
+
+    public void OnActivatePanel()
+    {
+        Time.timeScale = 0;
+        exitPanel.SetActive(true);
     }
 
     public void TakeDamage(int damage)
@@ -200,6 +209,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 curHealth += collision.gameObject.GetComponent<HealthPotion>().healthValue;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "CamBarrier")
+        {
+            followPlayer = true;
         }
     }
 }

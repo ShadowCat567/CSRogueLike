@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Vector3 offset;
 
     float followSpeed = 0.1f;
+    bool isFollowing = true;
 
     // Start is called before the first frame update
     void Start()
@@ -18,15 +19,36 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 playerPos = player.transform.position + offset;
-        Vector3 following = Vector3.Lerp(transform.position, playerPos, followSpeed);
+       // if (isFollowing == true || player.GetComponent<PlayerMovement>().followPlayer)
+        //{
+            Vector3 playerPos = player.transform.position + offset;
+            Vector3 following = Vector3.Lerp(transform.position, playerPos, followSpeed);
 
-        transform.position = following;
-        transform.LookAt(player.transform);
+            transform.position = following;
+            transform.LookAt(player.transform);
+       // }
+
+        if(player.GetComponent<PlayerMovement>().followPlayer)
+        {
+            isFollowing = true;
+        }
     }
 
-    void Follow()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "CamBarrier")
+        {
+            //Debug.Log("Stopped following");
+            isFollowing = false;
+            player.GetComponent<PlayerMovement>().followPlayer = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "CamBarrier")
+        {
+            isFollowing = true;
+        }
     }
 }
