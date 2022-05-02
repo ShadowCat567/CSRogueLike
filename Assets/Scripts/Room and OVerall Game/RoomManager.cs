@@ -15,8 +15,6 @@ public class RoomManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        unusedRooms.Add(curRoom);
-
         foreach(GameObject room in roomArr)
         {
             unusedRooms.Add(room);
@@ -41,9 +39,11 @@ public class RoomManager : MonoBehaviour
         {
             int nextRoom = Random.Range(0, unusedRooms.Count - 1);
 
+            Debug.Log(unusedRooms[nextRoom]);
             unusedRooms[nextRoom].SetActive(true);
             usedRooms.Add(curRoom);
             curRoom = unusedRooms[nextRoom];
+            Debug.Log(unusedRooms[nextRoom]);
             unusedRooms.Remove(curRoom);
         }
     }

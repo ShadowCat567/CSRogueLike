@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] Vector3 offset;
 
-    float followSpeed = 0.2f;
+    float followSpeed = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,15 +18,15 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        Follow();
-    }
-
-    void Follow()
-    {
         Vector3 playerPos = player.transform.position + offset;
         Vector3 following = Vector3.Lerp(transform.position, playerPos, followSpeed);
 
         transform.position = following;
         transform.LookAt(player.transform);
+    }
+
+    void Follow()
+    {
+        
     }
 }
