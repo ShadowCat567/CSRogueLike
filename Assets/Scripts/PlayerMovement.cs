@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     float dashSpeed = 6.0f;
     float maxDashtime = 0.2f;
     bool isInvincible = false;
+    bool InvincTimerRunning = false;
+    float invincTimer = 0.3f;
 
     float weaponRayCastDist = 3.0f;
     bool attack = false;
@@ -30,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     Renderer rend;
     Color damageColor = new Color(0.83f, 0.02f, 0.02f);
     Color normalColor = new Color(0.96f, 0.96f, 0.96f);
+    Color invincibleColor = new Color(0.59f, 0.94f, 1.0f);
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +50,11 @@ public class PlayerMovement : MonoBehaviour
         if(curHealth <= 0)
         {
             SceneManager.LoadScene(0);   
+        }
+
+        if(InvincTimerRunning)
+        {
+            InvincibleTimer();
         }
     }
 
@@ -88,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDash()
     {
-        InvincibleTimer();
+        InvincTimerRunning = true;
         StartCoroutine(Dashing());
     }
 
@@ -100,14 +108,24 @@ public class PlayerMovement : MonoBehaviour
 
     void InvincibleTimer()
     {
-        //look into this: https://gamedevbeginner.com/how-to-make-countdown-timer-in-unity-minutes-seconds/
-        float timer = 1.5f;
+        //this helped with parts this: https://gamedevbeginner.com/how-to-make-countdown-timer-in-unity-minutes-seconds/
+        isInvincible = true;
+        rend.material.color = invincibleColor;
 
-        if(timer > 0)
+        if (InvincTimerRunning)
         {
-            Debug.Log("invincible");
-            timer -= Time.deltaTime;
-            isInvincible = true;
+            if (invincTimer > 0)
+            {
+                invincTimer -= Time.deltaTime;
+            }
+            else
+            {
+                isInvincible = false;
+                rend.material.color = normalColor;
+                invincTimer = 0.0f;
+                InvincTimerRunning = false;
+                invincTimer = 0.3f;
+            }
         }
     }
 
