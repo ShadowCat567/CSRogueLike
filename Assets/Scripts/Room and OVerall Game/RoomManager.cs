@@ -39,11 +39,11 @@ public class RoomManager : MonoBehaviour
 
         else
         {
-            int nextRoom = Random.Range(0, roomArr.Length - 1);
+            int nextRoom = Random.Range(0, unusedRooms.Count - 1);
 
-            roomArr[nextRoom].SetActive(true);
+            unusedRooms[nextRoom].SetActive(true);
             usedRooms.Add(curRoom);
-            curRoom = roomArr[nextRoom];
+            curRoom = unusedRooms[nextRoom];
             unusedRooms.Remove(curRoom);
         }
     }

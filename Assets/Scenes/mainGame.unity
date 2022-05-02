@@ -1132,6 +1132,10 @@ PrefabInstance:
       propertyPath: room
       value: 
       objectReference: {fileID: 464108441}
+    - target: {fileID: 298622999685768381, guid: 2f6c147632949b84da53680689c54ecc, type: 3}
+      propertyPath: m_Constraints
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1384008898118412337, guid: 2f6c147632949b84da53680689c54ecc, type: 3}
       propertyPath: player
       value: 
@@ -1146,7 +1150,7 @@ PrefabInstance:
       objectReference: {fileID: 464108441}
     - target: {fileID: 4843702113362033175, guid: 2f6c147632949b84da53680689c54ecc, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5251517429262784617, guid: 2f6c147632949b84da53680689c54ecc, type: 3}
       propertyPath: enemyCounter

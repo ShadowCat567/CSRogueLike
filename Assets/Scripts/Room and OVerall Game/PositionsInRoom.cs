@@ -15,6 +15,8 @@ public class PositionsInRoom : MonoBehaviour
 
     [SerializeField] GameObject healthbuff;
 
+    bool isBuffActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,9 +31,9 @@ public class PositionsInRoom : MonoBehaviour
             canChangeRooms = true;
         }
 
-        if(enemyCounter == enemiesKilled)
+        if(enemyCounter <= enemiesKilled && isBuffActive == false)
         {
-            healthbuff.SetActive(true);
+            ActivateBuff();
         }
 
         if(room.activeSelf == true && wasActivated == false)
@@ -46,5 +48,11 @@ public class PositionsInRoom : MonoBehaviour
         player.transform.position = playerPos.transform.position;
         player.GetComponent<CharacterController>().enabled = true;
         wasActivated = true;
+    }
+
+    void ActivateBuff()
+    {
+        healthbuff.SetActive(true);
+        isBuffActive = true;
     }
 }

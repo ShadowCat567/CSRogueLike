@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     float dashSpeed = 6.0f;
     float maxDashtime = 0.2f;
+    bool isInvincible = false;
 
     float weaponRayCastDist = 3.0f;
     bool attack = false;
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnDash()
     {
+        InvincibleTimer();
         StartCoroutine(Dashing());
     }
 
@@ -94,6 +96,19 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(HitFlash(hitTimer));
         curHealth -= damage;
+    }
+
+    void InvincibleTimer()
+    {
+        //look into this: https://gamedevbeginner.com/how-to-make-countdown-timer-in-unity-minutes-seconds/
+        float timer = 1.5f;
+
+        if(timer > 0)
+        {
+            Debug.Log("invincible");
+            timer -= Time.deltaTime;
+            isInvincible = true;
+        }
     }
 
     private void FixedUpdate()
@@ -149,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace")
+        if((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace") && isInvincible == false)
         {
             StartCoroutine(HitFlash(hitTimer));
             curHealth -= 1;
