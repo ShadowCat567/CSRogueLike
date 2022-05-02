@@ -22,17 +22,13 @@ public class PacingEnemyBeh : MonoBehaviour
 
     [SerializeField] bool movingInXDir;
 
-    public float hitTimer = 0.2f;
-    Renderer eneRend;
-    Color hitColor = new Color(0.71f, 0.02f, 0.22f);
-    Color baseColor = new Color(0.96f, 0.96f, 0.96f);
     [SerializeField] GameObject healthBar;
+    [SerializeField] GameObject room;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        eneRend = GetComponent<Renderer>();
         player = GameObject.Find("Player");
         curEneHealth = enemyHealth;
         isChasing = false;
@@ -75,14 +71,8 @@ public class PacingEnemyBeh : MonoBehaviour
         if (curEneHealth <= 0)
         {
             Enemy.SetActive(false);
+            room.GetComponent<PositionsInRoom>().enemiesKilled += 1;
             curEneHealth = enemyHealth;
         }
-    }
-
-    public IEnumerator HitPlayer(float hitTimer)
-    {
-        eneRend.material.color = hitColor;
-        yield return new WaitForSeconds(hitTimer);
-        eneRend.material.color = baseColor;
     }
 }

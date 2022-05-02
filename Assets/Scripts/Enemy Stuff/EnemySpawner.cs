@@ -13,6 +13,8 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] GameObject roomManager;
 
+    [SerializeField] float enemiesKilledTimer = 3.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (roomManager.activeSelf)
+        if (roomManager.activeSelf || !roomManager.GetComponent<PositionsInRoom>().canChangeRooms)
         {
             spawnTimer -= Time.deltaTime;
 
@@ -41,10 +43,17 @@ public class EnemySpawner : MonoBehaviour
                     {
                         ene.SetActive(true);
                         ene.transform.position = transform.position;
+                        StartCoroutine(AddToEnemiesKilled(enemiesKilledTimer));
                         break;
                     }
                 }
             }
         }
+    }
+
+    IEnumerator AddToEnemiesKilled(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        roomManager.GetComponent<PositionsInRoom>().enemiesKilled += 1;
     }
 }

@@ -17,12 +17,12 @@ public class PlayerMovement : MonoBehaviour
     float dashSpeed = 6.0f;
     float maxDashtime = 0.2f;
 
-    float weaponRayCastDist = 2.5f;
+    float weaponRayCastDist = 3.0f;
     bool attack = false;
     float activated = 0.2f;
 
     int curHealth;
-    int maxHealth = 10;
+    public int maxHealth = 18;
     [SerializeField] GameObject healthBar;
 
     float hitTimer = 0.2f;
@@ -153,6 +153,12 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(HitFlash(hitTimer));
             curHealth -= 1;
+        }
+
+        if(collision.gameObject.tag == "HealthBuff")
+        {
+            curHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
+            maxHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
         }
     }
 }

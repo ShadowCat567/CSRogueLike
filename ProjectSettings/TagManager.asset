@@ -8,6 +8,7 @@ TagManager:
   - Exit
   - Wall
   - EnemyPace
+  - HealthBuff
   layers:
   - Default
   - TransparentFX
