@@ -11,6 +11,8 @@ TagManager:
   - HealthBuff
   - HealthPotion
   - CamBarrier
+  - Boss
+  - DamageField
   layers:
   - Default
   - TransparentFX

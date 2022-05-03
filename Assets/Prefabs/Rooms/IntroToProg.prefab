@@ -1643,6 +1643,10 @@ PrefabInstance:
       propertyPath: curRoom
       value: 
       objectReference: {fileID: 7028788942466439365}
+    - target: {fileID: 7391722693773488831, guid: 4c64c7f3652a4a6449caa0167a3726c0, type: 3}
+      propertyPath: buffValue
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c64c7f3652a4a6449caa0167a3726c0, type: 3}
 --- !u!1 &4843702113362033168 stripped

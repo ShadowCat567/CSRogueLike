@@ -2113,7 +2113,7 @@ PrefabInstance:
       objectReference: {fileID: 8788416441106338137}
     - target: {fileID: 7391722693773488831, guid: 4c64c7f3652a4a6449caa0167a3726c0, type: 3}
       propertyPath: buffValue
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c64c7f3652a4a6449caa0167a3726c0, type: 3}

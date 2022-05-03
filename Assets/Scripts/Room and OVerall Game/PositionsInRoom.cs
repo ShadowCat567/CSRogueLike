@@ -16,6 +16,7 @@ public class PositionsInRoom : MonoBehaviour
     [SerializeField] GameObject healthbuff;
 
     bool isBuffActive = false;
+    [SerializeField] bool isFinal;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +27,12 @@ public class PositionsInRoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(healthbuff.GetComponent<HealthBuffs>().collectedBuff)
+        if(healthbuff.GetComponent<HealthBuffs>().collectedBuff && isFinal == false)
         {
             canChangeRooms = true;
         }
 
-        if(enemyCounter <= enemiesKilled && isBuffActive == false)
+        if(enemyCounter <= enemiesKilled && isBuffActive == false && isFinal == false)
         {
             ActivateBuff();
         }

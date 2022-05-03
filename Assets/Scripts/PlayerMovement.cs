@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     float activated = 0.2f;
 
     int curHealth;
-    public int maxHealth = 18;
+    public int maxHealth = 10;
     [SerializeField] GameObject healthBar;
 
     float hitTimer = 0.2f;
@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     Color damageColor = new Color(0.83f, 0.02f, 0.02f);
     Color normalColor = new Color(0.96f, 0.96f, 0.96f);
     Color invincibleColor = new Color(0.59f, 0.94f, 1.0f);
+
+    [SerializeField] GameObject weapon;
+    Color normalWeaponColor = new Color(1.0f, 1.0f, 1.0f);
+    Color attackWeaponColor = new Color(0.37f, 0.37f, 0.37f);
 
     public bool followPlayer;
 
@@ -68,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         //used this to help figure this out: https://answers.unity.com/questions/294285/casting-ray-forward-from-transform-position.html
         RaycastHit hitObj;
 
-        Debug.DrawRay(transform.position, transform.forward * weaponRayCastDist, Color.red);
+        //Debug.DrawRay(transform.position, transform.forward * weaponRayCastDist, Color.red);
         
         if(Physics.Raycast(transform.position, transform.forward, out hitObj, weaponRayCastDist))
         {
@@ -80,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
             if(hitObj.collider.gameObject.tag == "EnemyPace")
             {
                 hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 0.051f;
+            }
+
+            if(hitObj.collider.gameObject.tag == "Boss")
+            {
+                hitObj.collider.gameObject.GetComponent<FinalBoss>().curHealth -= 1;
             }
         }
     }
@@ -95,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnNormalAttack()
     {
         attack = true;
+        StartCoroutine(WeaponFlash(activated));
     }
 
     public void OnDash()
@@ -189,15 +199,34 @@ public class PlayerMovement : MonoBehaviour
         rend.material.color = normalColor;
     }
 
+    IEnumerator WeaponFlash(float hitTime)
+    {
+        weapon.GetComponent<Renderer>().material.color = attackWeaponColor;
+        yield return new WaitForSeconds(hitTime);
+        weapon.GetComponent<Renderer>().material.color = normalWeaponColor;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace") && isInvincible == false)
+        if((collision.gameObject.tag == "Enemy") && isInvincible == false)
         {
             StartCoroutine(HitFlash(hitTimer));
             curHealth -= 1;
         }
 
-        if(collision.gameObject.tag == "HealthBuff")
+        if(collision.gameObject.tag == "Boss" && isInvincible == false)
+        {
+            StartCoroutine(HitFlash(hitTimer));
+            curHealth -= 5;
+        }
+
+        if(collision.gameObject.tag == "DamageField" && isInvincible == false)
+        {
+            StartCoroutine(HitFlash(hitTimer));
+            curHealth -= 3;
+        }
+
+        if (collision.gameObject.tag == "HealthBuff")
         {
             curHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
             maxHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
@@ -209,14 +238,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 curHealth += collision.gameObject.GetComponent<HealthPotion>().healthValue;
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "CamBarrier")
-        {
-            followPlayer = true;
         }
     }
 }
