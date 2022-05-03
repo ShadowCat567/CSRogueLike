@@ -15,9 +15,13 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] float enemiesKilledTimer = 3.0f;
 
+    AudioSource sound;
+
     // Start is called before the first frame update
     void Start()
     {
+        sound = GetComponent<AudioSource>();
+
         for(int i = 0; i < enemyPool; i ++)
         {
             GameObject newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
@@ -41,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
                 {
                     if (ene.activeSelf == false)
                     {
+                        sound.PlayOneShot(sound.clip);
                         ene.SetActive(true);
                         ene.transform.position = transform.position;
                         StartCoroutine(AddToEnemiesKilled(enemiesKilledTimer));

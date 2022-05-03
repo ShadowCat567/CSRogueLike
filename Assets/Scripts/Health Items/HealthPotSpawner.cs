@@ -13,9 +13,13 @@ public class HealthPotSpawner : MonoBehaviour
 
     [SerializeField] GameObject curRoom;
 
+    AudioSource sound;
+
     // Start is called before the first frame update
     void Start()
     {
+        sound = GetComponent<AudioSource>();
+
         for(int i = 0; i < potionPool; i ++)
         {
             GameObject newPotion = Instantiate(potion, transform.position, Quaternion.identity);
@@ -39,6 +43,7 @@ public class HealthPotSpawner : MonoBehaviour
                 {
                     if(pot.activeSelf == false)
                     {
+                        sound.PlayOneShot(sound.clip);
                         pot.SetActive(true);
                         float xPos = Random.Range(-8, 8);
                         float zPos = Random.Range(-8, 8);

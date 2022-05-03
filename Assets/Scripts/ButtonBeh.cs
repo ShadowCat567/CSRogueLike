@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonBeh : MonoBehaviour
 {
@@ -12,13 +13,17 @@ public class ButtonBeh : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Exited game");
         Application.Quit();
     }
 
     public void GoToMainMenu()
     {
         //go to the first scene
-        Debug.Log("Went to main menu");
+        SceneManager.LoadScene(0);
+    }
+
+    public void GoToGame()
+    {
+        SceneManager.LoadScene(1);
     }
 }

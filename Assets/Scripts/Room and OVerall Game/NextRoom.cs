@@ -11,9 +11,12 @@ public class NextRoom : MonoBehaviour
 
     BoxCollider bc;
 
+    AudioSource sound;
+
     // Start is called before the first frame update
     void Start()
     {
+        sound = GetComponent<AudioSource>();
         bc = GetComponent<BoxCollider>();
         bc.isTrigger = false;
     }
@@ -39,6 +42,7 @@ public class NextRoom : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            sound.PlayOneShot(sound.clip);
             manager.GetComponent<RoomManager>().SelectRoom();
             currentRoom.SetActive(false);
         }

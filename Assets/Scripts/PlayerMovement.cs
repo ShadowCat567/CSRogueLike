@@ -42,9 +42,19 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] GameObject exitPanel;
 
+    AudioSource sounds;
+    [SerializeField] AudioClip attackSound;
+    [SerializeField] AudioClip dashSound;
+    [SerializeField] AudioClip EnemyHitSound;
+    [SerializeField] AudioClip buffpickupSound;
+    [SerializeField] AudioClip PotionPickupSound;
+    [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip damageFieldSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        sounds = GetComponent<AudioSource>();
         exitPanel.SetActive(false);
         rend = GetComponent<Renderer>();
         cc = GetComponent<CharacterController>();
@@ -58,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(curHealth <= 0)
         {
+            sounds.PlayOneShot(deathSound);
             SceneManager.LoadScene(1);   
         }
 
@@ -78,16 +89,19 @@ public class PlayerMovement : MonoBehaviour
         {
             if(hitObj.collider.gameObject.tag == "Enemy")
             {
+                sounds.PlayOneShot(attackSound);
                 hitObj.collider.gameObject.GetComponent<EnemyBeh>().curEneHealth -= 0.051f;
             }
 
             if(hitObj.collider.gameObject.tag == "EnemyPace")
             {
+                sounds.PlayOneShot(attackSound);
                 hitObj.collider.gameObject.GetComponent<PacingEnemyBeh>().curEneHealth -= 0.051f;
             }
 
             if(hitObj.collider.gameObject.tag == "Boss")
             {
+                sounds.PlayOneShot(attackSound);
                 hitObj.collider.gameObject.GetComponent<FinalBoss>().curHealth -= 1;
             }
         }
@@ -110,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
     public void OnDash()
     {
         InvincTimerRunning = true;
+        sounds.PlayOneShot(dashSound);
         StartCoroutine(Dashing());
     }
 
@@ -208,26 +223,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if((collision.gameObject.tag == "Enemy") && isInvincible == false)
+        if((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyPace") && isInvincible == false)
         {
             StartCoroutine(HitFlash(hitTimer));
+            sounds.PlayOneShot(EnemyHitSound);
             curHealth -= 1;
         }
 
         if(collision.gameObject.tag == "Boss" && isInvincible == false)
         {
             StartCoroutine(HitFlash(hitTimer));
+            sounds.PlayOneShot(EnemyHitSound);
             curHealth -= 5;
         }
 
         if(collision.gameObject.tag == "DamageField" && isInvincible == false)
         {
+            sounds.PlayOneShot(damageFieldSound);
             StartCoroutine(HitFlash(hitTimer));
             curHealth -= 3;
         }
 
         if (collision.gameObject.tag == "HealthBuff")
         {
+            sounds.PlayOneShot(buffpickupSound);
             curHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
             maxHealth += collision.gameObject.GetComponent<HealthBuffs>().buffValue;
         }
@@ -236,6 +255,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (curHealth < maxHealth)
             {
+                sounds.PlayOneShot(PotionPickupSound);
                 curHealth += collision.gameObject.GetComponent<HealthPotion>().healthValue;
             }
         }

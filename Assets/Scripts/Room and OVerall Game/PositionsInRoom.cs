@@ -18,9 +18,12 @@ public class PositionsInRoom : MonoBehaviour
     bool isBuffActive = false;
     [SerializeField] bool isFinal;
 
+    AudioSource sound;
+
     // Start is called before the first frame update
     void Start()
     {
+        sound = GetComponent<AudioSource>();
         player = GameObject.Find("Player");
     }
 
@@ -53,6 +56,7 @@ public class PositionsInRoom : MonoBehaviour
 
     void ActivateBuff()
     {
+        sound.PlayOneShot(sound.clip);
         healthbuff.SetActive(true);
         isBuffActive = true;
     }
