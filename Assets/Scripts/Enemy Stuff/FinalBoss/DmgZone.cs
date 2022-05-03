@@ -6,15 +6,10 @@ public class DmgZone : MonoBehaviour
 {
     [SerializeField] GameObject boss;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
+        //attaches the damage zone to the boss and makes sure they move together
         transform.position = new Vector3(boss.transform.position.x, boss.transform.position.y - 1.0f, boss.transform.position.z);
     }
 }

@@ -7,6 +7,7 @@ public class EndingGame : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+        //if the player runs into the exit, go to the victory scene
         if (other.gameObject.tag == "Player")
         {
             SceneManager.LoadScene(2);

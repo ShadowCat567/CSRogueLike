@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class HealthPotSpawner : MonoBehaviour
 {
+    //variables related to spawning
     [SerializeField] GameObject potion;
     [SerializeField] float timeBetwnSpawns = 12.0f;
-
     float spawnTimer;
+
+    //variables related to object pool
     int potionPool = 3;
     List<GameObject> potionLst = new List<GameObject>();
 
+    //what room am I in?
     [SerializeField] GameObject curRoom;
 
     AudioSource sound;
@@ -20,6 +23,7 @@ public class HealthPotSpawner : MonoBehaviour
     {
         sound = GetComponent<AudioSource>();
 
+        //populate the object pool
         for(int i = 0; i < potionPool; i ++)
         {
             GameObject newPotion = Instantiate(potion, transform.position, Quaternion.identity);
@@ -31,7 +35,8 @@ public class HealthPotSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (curRoom.activeSelf || !curRoom.GetComponent<PositionsInRoom>().canChangeRooms)
+        //spawn health objects so long as the room it is in is active and the player cannot change rooms
+        if (curRoom.activeSelf && !curRoom.GetComponent<PositionsInRoom>().canChangeRooms)
         {
             spawnTimer -= Time.deltaTime;
 

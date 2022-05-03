@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    //variables related to spawning the object
     [SerializeField] GameObject enemy;
     [SerializeField] float secBetwnSpawn = 8.0f;
-
     float spawnTimer;
+
+    //variables related to the obejct pool
     int enemyPool = 3;
     List<GameObject> EnemyLst = new List<GameObject>();
 
+    //gets the room the spawner is in
     [SerializeField] GameObject roomManager;
 
+    //timer to update enemiesKilled variable
     [SerializeField] float enemiesKilledTimer = 3.0f;
 
+    //sound for spawning
     AudioSource sound;
 
     // Start is called before the first frame update
@@ -22,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
     {
         sound = GetComponent<AudioSource>();
 
+        //puts enemies in the object pool
         for(int i = 0; i < enemyPool; i ++)
         {
             GameObject newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
@@ -33,7 +39,8 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (roomManager.activeSelf || !roomManager.GetComponent<PositionsInRoom>().canChangeRooms)
+        //spawns enemies when the room is active and the player cannot change rooms
+        if (roomManager.activeSelf && !roomManager.GetComponent<PositionsInRoom>().canChangeRooms)
         {
             spawnTimer -= Time.deltaTime;
 
@@ -58,6 +65,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator AddToEnemiesKilled(float timer)
     {
+        //adds to the enemiesKilled variable a set period of time after an enemy has been spawned
         yield return new WaitForSeconds(timer);
         roomManager.GetComponent<PositionsInRoom>().enemiesKilled += 1;
     }

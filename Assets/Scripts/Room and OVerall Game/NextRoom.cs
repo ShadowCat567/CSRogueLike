@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NextRoom : MonoBehaviour
 {
+    //variables related to the room
     [SerializeField] GameObject manager;
     [SerializeField] GameObject currentRoom;
     [SerializeField] GameObject player;
@@ -26,12 +27,14 @@ public class NextRoom : MonoBehaviour
     {
         if (isStart == false)
         {
+            //if the room is not the starting room, only change the collider to a trigger when canChangeRooms is true
             if (currentRoom.GetComponent<PositionsInRoom>().canChangeRooms)
             {
                 bc.isTrigger = true;
             }
         }
 
+        //if the room is Start, set the collider to a trigger
         else
         {
             bc.isTrigger = true;
@@ -40,6 +43,7 @@ public class NextRoom : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //if the player runs into the exit object, move to the next room
         if(other.gameObject.tag == "Player")
         {
             sound.PlayOneShot(sound.clip);
